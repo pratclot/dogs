@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav"
+    app:startDestination="@id/breeds">
+
+    <fragment
+        android:id="@+id/breeds"
+        android:name="com.pratclot.dogs.fragments.Breeds"
+        android:label="Breeds">
+        <action
+            android:id="@+id/action_breeds_to_subBreed"
+            app:destination="@id/subBreed" />
+        <action
+            android:id="@+id/action_breeds_to_breedPager"
+            app:destination="@id/breedPager" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="com.pratclot.dogs://list" />
+    </fragment>
+    <fragment
+        android:id="@+id/subBreed"
+        android:name="layout.SubBreed"
+        android:label="SubBreed" >
+        <argument
+            android:name="chosen_breed"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_subBreed_to_breedPager"
+            app:destination="@id/breedPager" />
+    </fragment>
+    <fragment
+        android:id="@+id/breedPager"
+        android:name="com.pratclot.dogs.fragments.BreedPager"
+        android:label="BreedPager" >
+        <argument
+            android:name="chosen_breed"
+            app:argType="string" />
+        <argument
+            android:name="parent_breed"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/favourites"
+        android:name="com.pratclot.dogs.fragments.Favourites"
+        android:label="Favourites">
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="com.pratclot.dogs://favourites" />
+        <action
+            android:id="@+id/action_favourites_to_likedPager"
+            app:destination="@id/likedPager" />
+    </fragment>
+    <fragment
+        android:id="@+id/likedPager"
+        android:name="com.pratclot.dogs.fragments.LikedPager"
+        android:label="LikedPager" >
+        <argument
+            android:name="chosen_breed"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+</navigation>

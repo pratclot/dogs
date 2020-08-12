@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="likedBreed"
+            type="com.pratclot.dogs.domain.LikedBreed" />
+
+        <variable
+            name="listener"
+            type="com.pratclot.dogs.adapters.LikeClickListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:onClick="@{() -> listener.onClick(likedBreed)}"
+            android:padding="8dp"
+            app:setContent="@{likedBreed}" />
+
+    </LinearLayout>
+
+</layout>

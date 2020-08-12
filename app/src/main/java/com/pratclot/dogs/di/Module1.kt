@@ -6,6 +6,8 @@ import androidx.room.RoomDatabase
 import com.pratclot.dogs.data.db.LikeDb
 import com.pratclot.dogs.data.db.LikeDbDao
 import com.pratclot.dogs.service.DogApi
+import com.squareup.picasso.OkHttp3Downloader
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +18,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.Duration
+import java.time.temporal.Temporal
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 const val BASE_URL = "https://dog.ceo"
@@ -30,7 +35,7 @@ class Module1 {
             .baseUrl(BASE_URL)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-//            .client(provideOkHttpClient())
+            .client(provideOkHttpClient())
             .build()
     }
 
@@ -42,6 +47,7 @@ class Module1 {
         }
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
+//            .callTimeout(30L, TimeUnit.MILLISECONDS)
             .build()
     }
 
@@ -49,6 +55,14 @@ class Module1 {
     @Provides
     fun provideRetrofitService(retrofit: Retrofit): DogApi {
         return retrofit.create(DogApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providePicasso(@ApplicationContext context: Context): Picasso {
+        return Picasso.Builder(context)
+            .downloader(OkHttp3Downloader(provideOkHttpClient()))
+            .build()
     }
 
     @Singleton

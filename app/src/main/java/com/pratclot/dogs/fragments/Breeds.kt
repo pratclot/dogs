@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.ext.T
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pratclot.dogs.R
@@ -19,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.breeds_fragment.*
 
 const val TAG = "BreedsFragment"
 
@@ -66,13 +69,35 @@ class Breeds : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onNext = {
+                    breeds_placeholder.visibility = View.GONE
+                    list.visibility = View.VISIBLE
+
                     viewModel.saveBreeds(it)
                     adapter.submitList(it.toList())
                 },
-                onError = { Log.e(TAG, it.toString()) },
-                onComplete = { }
+                onError = {
+                    showAlert(it.message)
+                    Log.e(TAG, it.toString())
+                },
+                onComplete = {Log.e(TAG, "Complete")}
             )
 
         return binding.root
+    }
+
+    private fun showAlert(e: String?) {
+        AlertDialog.Builder(requireContext()).apply {
+            setPositiveButton("Ok") { dialogInterface, i ->
+                dialogInterface.dismiss()
+            }
+            setTitle("Some server error")
+            setMessage(
+                when (e) {
+                    null -> "Try connect later"
+                    else -> e
+                }
+            )
+            show()
+        }
     }
 }

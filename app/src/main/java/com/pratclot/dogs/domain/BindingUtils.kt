@@ -27,11 +27,3 @@ fun ImageView.setContent(breedImage: BreedImage) {
         .load(breedImage.imageUrl)
         .into(this)
 }
-
-@BindingAdapter("setLike")
-fun FloatingActionButton.setLike(like: Like) {
-    when (like.liked) {
-        false -> setImageResource(R.drawable.ic_baseline_favorite_border_24)
-        true -> setImageResource(R.drawable.ic_baseline_favorite_24)
-    }
-}

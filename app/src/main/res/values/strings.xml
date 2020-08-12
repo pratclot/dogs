@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">dogs</string>
     <string name="breeds_title">Breeds</string>
+    <string name="share">Share</string>
 </resources>

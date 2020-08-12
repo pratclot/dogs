@@ -2,9 +2,9 @@ package com.pratclot.dogs.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.ShareActionProvider
+import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,6 +28,8 @@ class LikedPager : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
+
         (arguments?.get("chosen_breed") as String).let {
             viewModel.changeTitle(it)
             viewModel.getLikedImagesFor(it)
@@ -47,10 +49,19 @@ class LikedPager : Fragment() {
                 onSuccess = {
                     createAdapter(it.toList())
                 },
-                onError = { Log.e(TAG, it.message.toString())}
+                onError = { Log.e(TAG, it.message.toString()) }
             )
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.share_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+        val item = menu.findItem(R.id.action_share)
+        viewModel.shareActionProvider =
+            MenuItemCompat.getActionProvider(item) as ShareActionProvider
     }
 
     private fun createAdapter(imageList: List<BreedImage>) {

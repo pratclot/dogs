@@ -1,6 +1,7 @@
 package com.pratclot.dogs.data
 
 import android.util.Log
+import androidx.appcompat.widget.ShareActionProvider
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.pratclot.dogs.domain.*
@@ -20,6 +21,7 @@ class MainViewModel @ViewModelInject constructor(
     var dogApi: DogApi,
     var repo: Repo
 ) : ViewModel() {
+    lateinit var shareActionProvider: ShareActionProvider
     var likesObservable: Flowable<List<LikedBreed>> = repo.getLiked()
     lateinit var imagesObservable: Observable<BreedImages>
     lateinit var imagesSingle: Single<BreedImages>

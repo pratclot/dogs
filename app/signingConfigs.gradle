@@ -1,0 +1,10 @@
+android {
+    signingConfigs {
+        release {
+            storeFile file("${System.env.KEYSTORE_PATH}")
+            storePassword "${System.env.KEYSTORE_PASS}"
+            keyAlias = "${System.env.KEYSTORE_KEY_NAME}"
+            keyPassword = "${System.env.KEYSTORE_KEY_PASS}"
+        }
+    }
+}

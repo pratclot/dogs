@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class androidx.navigation.fragment.NavHostFragment
+-keep class androidx.appcompat.widget.ShareActionProvider { *; }
+-keep class com.google.android.material.floatingactionbutton.FloatingActionButton { *; }
+-keepclassmembers class com.pratclot.dogs.domain.* { <fields>; }
+

@@ -54,7 +54,7 @@ class BreedPager : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onNext = {
+                onSuccess = {
                     createAdapter(it.toList())
                 },
                 onError = { Log.e(TAG, it.message.toString()) },

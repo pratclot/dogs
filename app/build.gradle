@@ -5,6 +5,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
+try {
+    apply from: "signingConfigs.gradle.real"
+} catch (ex) {
+    println "Signing config is not present"
+}
 
 android {
     compileSdkVersion 30
@@ -32,6 +37,11 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            try {
+                signingConfig signingConfigs.release
+            } catch (ex) {
+                println "Could not apply signing config to release build"
+            }
         }
     }
     compileOptions {

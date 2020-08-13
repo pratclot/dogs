@@ -68,7 +68,7 @@ class Breeds : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onNext = {
+                onSuccess = {
                     breeds_placeholder.visibility = View.GONE
                     list.visibility = View.VISIBLE
 
@@ -77,7 +77,7 @@ class Breeds : Fragment() {
                 },
                 onError = {
                     showAlert(it.message)
-                    Log.e(TAG, it.toString())
+                    Log.e(TAG, "${it.toString()}, ${it.stackTrace.toString()}")
                 },
                 onComplete = {Log.e(TAG, "Complete")}
             )

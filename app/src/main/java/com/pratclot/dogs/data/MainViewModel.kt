@@ -9,7 +9,7 @@ import com.pratclot.dogs.service.DogApi
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -23,7 +23,7 @@ class MainViewModel @ViewModelInject constructor(
 ) : ViewModel() {
     lateinit var shareActionProvider: ShareActionProvider
     var likesObservable: Flowable<List<LikedBreed>> = repo.getLiked()
-    lateinit var imagesObservable: Observable<BreedImages>
+    lateinit var imagesObservable: Maybe<BreedImages>
     lateinit var imagesSingle: Single<BreedImages>
     lateinit var breeds: Breeds
     var breedsObservable = dogApi.listAllBreeds()

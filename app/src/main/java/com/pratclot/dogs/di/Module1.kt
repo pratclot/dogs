@@ -2,6 +2,7 @@ package com.pratclot.dogs.di
 
 import android.content.Context
 import androidx.room.Room
+import com.pratclot.dogs.BuildConfig
 import com.pratclot.dogs.data.db.LikeDb
 import com.pratclot.dogs.data.db.LikeDbDao
 import com.pratclot.dogs.service.DogApi
@@ -38,12 +39,13 @@ class Module1 {
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
-        val interceptor = HttpLoggingInterceptor().apply {
-            setLevel(HttpLoggingInterceptor.Level.BODY)
-        }
         return OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-//            .callTimeout(30L, TimeUnit.MILLISECONDS)
+            .apply {
+                val interceptor = HttpLoggingInterceptor().apply {
+                    setLevel(HttpLoggingInterceptor.Level.BODY)
+                }
+                if (BuildConfig.DEBUG) addInterceptor(interceptor)
+            }
             .build()
     }
 

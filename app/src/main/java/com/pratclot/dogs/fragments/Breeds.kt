@@ -5,13 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.hilt.ext.T
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pratclot.dogs.R
 import com.pratclot.dogs.adapters.BreedListAdapter
 import com.pratclot.dogs.adapters.ClickListener
@@ -21,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.synthetic.main.breeds_fragment.*
 
 const val TAG = "BreedsFragment"
 
@@ -53,6 +53,7 @@ class Breeds : Fragment() {
                             null
                         )
                     )
+
                     true -> findNavController().navigate(BreedsDirections.actionBreedsToSubBreed(it.name))
                 }
             }
@@ -69,8 +70,9 @@ class Breeds : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
-                    breeds_placeholder.visibility = View.GONE
-                    list.visibility = View.VISIBLE
+                    requireView().findViewById<ImageView>(R.id.breeds_placeholder).visibility =
+                        View.GONE
+                    requireView().findViewById<RecyclerView>(R.id.list).visibility = View.VISIBLE
 
                     viewModel.saveBreeds(it)
                     adapter.submitList(it.toList())
@@ -79,7 +81,7 @@ class Breeds : Fragment() {
                     showAlert(it.message)
                     Log.e(TAG, "${it.toString()}, ${it.stackTrace.toString()}")
                 },
-                onComplete = {Log.e(TAG, "Complete")}
+                onComplete = { Log.e(TAG, "Complete") }
             )
 
         return binding.root

@@ -2,10 +2,15 @@ package com.pratclot.dogs.data
 
 import android.util.Log
 import androidx.appcompat.widget.ShareActionProvider
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import com.pratclot.dogs.domain.*
+import com.pratclot.dogs.domain.Breed
+import com.pratclot.dogs.domain.BreedImage
+import com.pratclot.dogs.domain.BreedImages
+import com.pratclot.dogs.domain.Breeds
+import com.pratclot.dogs.domain.Like
+import com.pratclot.dogs.domain.LikedBreed
 import com.pratclot.dogs.service.DogApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
@@ -14,10 +19,12 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import javax.inject.Inject
 
 var TAG = "MainViewModel"
 
-class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     var dogApi: DogApi,
     var repo: Repo
 ) : ViewModel() {

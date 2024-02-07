@@ -8,6 +8,7 @@ import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.pratclot.dogs.R
 import com.pratclot.dogs.adapters.PagerAdapter
 import com.pratclot.dogs.data.MainViewModel
@@ -17,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.synthetic.main.breed_pager_fragment.*
 
 @AndroidEntryPoint
 class BreedPager : Fragment() {
@@ -75,6 +75,6 @@ class BreedPager : Fragment() {
 
     private fun createAdapter(imageList: List<BreedImage>) {
         val adapter = PagerAdapter(this, imageList)
-        breed_pager.adapter = adapter
+        requireView().findViewById<ViewPager2>(R.id.breed_pager).adapter = adapter
     }
 }

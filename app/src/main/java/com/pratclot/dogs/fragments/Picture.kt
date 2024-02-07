@@ -4,15 +4,17 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.ShareActionProvider
 import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pratclot.dogs.R
 import com.pratclot.dogs.data.MainViewModel
 import com.pratclot.dogs.databinding.PictureFragmentBinding
@@ -24,7 +26,6 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.synthetic.main.picture_fragment.*
 import java.io.File
 import javax.inject.Inject
 
@@ -63,7 +64,7 @@ class Picture : Fragment() {
             picasso
                 .load(imageUrl)
                 .placeholder(R.drawable.rotating_sync)
-                .into(image, object : Callback {
+                .into(requireView().findViewById(R.id.image), object : Callback {
                     override fun onSuccess() = setShareIntent()
 
                     override fun onError(e: Exception?) = showAlert(e)
@@ -78,8 +79,11 @@ class Picture : Fragment() {
                 .subscribeBy(
                     onNext = {
                         when (it.liked) {
-                            false -> fab.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                            true -> fab.setImageResource(R.drawable.ic_baseline_favorite_24)
+                            false -> requireView().findViewById<FloatingActionButton>(R.id.fab)
+                                .setImageResource(R.drawable.ic_baseline_favorite_border_24)
+
+                            true -> requireView().findViewById<FloatingActionButton>(R.id.fab)
+                                .setImageResource(R.drawable.ic_baseline_favorite_24)
                         }
                     },
                     onError = { Log.e(TAG, it.toString()) },
@@ -110,7 +114,7 @@ class Picture : Fragment() {
     }
 
     private fun setShareIntent() {
-        val bmp = image.drawable.toBitmap()
+        val bmp = requireView().findViewById<ImageView>(R.id.image).drawable.toBitmap()
         val imgFile = File.createTempFile("prefix", ".png", requireContext().cacheDir)
         val imgUri =
             FileProvider.getUriForFile(requireContext(), "com.pratclot.dogs.provider", imgFile)

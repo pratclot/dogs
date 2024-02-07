@@ -2,12 +2,17 @@ package com.pratclot.dogs.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.ShareActionProvider
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.pratclot.dogs.R
 import com.pratclot.dogs.adapters.PagerAdapter
 import com.pratclot.dogs.data.MainViewModel
@@ -17,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.synthetic.main.liked_pager_fragment.*
 
 @AndroidEntryPoint
 class LikedPager : Fragment() {
@@ -66,6 +70,6 @@ class LikedPager : Fragment() {
 
     private fun createAdapter(imageList: List<BreedImage>) {
         val adapter = PagerAdapter(this, imageList)
-        liked_pager.adapter = adapter
+        requireView().findViewById<ViewPager2>(R.id.liked_pager).adapter = adapter
     }
 }

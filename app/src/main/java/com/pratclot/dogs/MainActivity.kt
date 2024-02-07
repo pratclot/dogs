@@ -13,13 +13,13 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pratclot.dogs.data.MainViewModel
 import com.pratclot.dogs.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navC)
         appBarConfiguration = AppBarConfiguration(navC.graph)
 
-        nav_view.setOnNavigationItemSelectedListener {
+        findViewById<BottomNavigationView>(R.id.nav_view).setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_item_list -> {
                     navC.navigate(
@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     true
                 }
+
                 R.id.menu_item_favourites -> {
                     navC.navigate(
                         NavDeepLinkRequest.Builder.fromUri("com.pratclot.dogs://favourites".toUri())
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     true
                 }
+
                 else -> false
             }
         }

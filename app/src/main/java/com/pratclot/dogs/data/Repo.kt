@@ -20,7 +20,14 @@ class Repo @Inject constructor(
     }
 
     fun getLikeFor(imageUrl: String): Flow<Like> {
-        return likeDbDao.getLikeFor(imageUrl).map { it.asLike() }
+        return likeDbDao.getLikeFor(imageUrl).map {
+            it?.asLike() ?: Like(
+                breed = "",
+                parentBreed = null,
+                liked = false,
+                imageUrl = ""
+            )
+        }
     }
 
     fun toggleLikeFor(imageUrl: String) =

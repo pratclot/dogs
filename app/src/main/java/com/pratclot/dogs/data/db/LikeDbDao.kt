@@ -24,7 +24,7 @@ interface LikeDbDao {
     fun getLiked(): Flowable<List<LikedEntity>>
 
     @Query("SELECT * FROM likes WHERE imageUrl = :imageUrl")
-    fun getLikeFor(imageUrl: String): Flow<LikeEntity>
+    fun getLikeFor(imageUrl: String): Flow<LikeEntity?>
 
     @Query("UPDATE likes SET liked = ((liked | 1) - (liked & 1)) WHERE imageUrl = :imageUrl")
     fun toggleLikeFor(imageUrl: String)

@@ -1,0 +1,49 @@
+[versions]
+constraintlayout = "1.1.3"
+appcompat = "1.1.0"
+coreKtx = "1.3.0"
+espressoCore = "3.2.0"
+gradle = "8.5.2"
+hiltAndroid = "2.50"
+junit = "4.12"
+junitVersion = "1.1.1"
+kotlinStdlib = "1.9.21"
+loggingInterceptor = "4.8.1"
+navigationFragmentKtx = "2.7.6"
+navigationUiKtx = "2.7.6"
+picasso = "2.71828"
+retrofit = "2.9.0"
+roomCommon = "2.3.0-alpha02"
+rxbindingRecyclerview = "4.0.0"
+rxkotlin = "3.0.0"
+stetho = "1.5.1"
+viewpager2 = "1.1.0-alpha01"
+
+[libraries]
+adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+ext-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+nav-safe-args = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.7.6" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+junit = { module = "junit:junit", version.ref = "junit" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinStdlib" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigationFragmentKtx" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+room-common = { module = "androidx.room:room-common", version.ref = "roomCommon" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCommon" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCommon" }
+room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCommon" }
+rxbinding-recyclerview = { module = "com.jakewharton.rxbinding4:rxbinding-recyclerview", version.ref = "rxbindingRecyclerview" }
+rxkotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin" }
+stetho = { module = "com.facebook.stetho:stetho", version.ref = "stetho" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }

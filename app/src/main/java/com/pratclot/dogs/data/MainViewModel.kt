@@ -19,6 +19,8 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 var TAG = "MainViewModel"
@@ -53,8 +55,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getLikeFor(imageUrl: String): Flowable<Like> {
-        return repo.getLikeFor(imageUrl)
+    fun getLikeFor(imageUrl: String): Flow<Boolean> {
+        return repo.getLikeFor(imageUrl).map { it.liked }
     }
 
     fun toggleLikeFor(imageUrl: String) {

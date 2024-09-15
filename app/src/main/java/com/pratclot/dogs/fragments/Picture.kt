@@ -7,19 +7,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.content.FileProvider
-import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pratclot.dogs.R
 import com.pratclot.dogs.data.MainViewModel
 import com.pratclot.dogs.databinding.PictureFragmentBinding
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
+import com.pratclot.dogs.ui.compose.Picture
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -27,7 +26,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
-import javax.inject.Inject
 
 const val ARG_OBJECT = "imageUrl"
 
@@ -35,9 +33,6 @@ const val ARG_OBJECT = "imageUrl"
 class Picture : Fragment() {
     private val TAG = "Picture"
     private val viewModel: MainViewModel by activityViewModels()
-
-    @Inject
-    lateinit var picasso: Picasso
 
     private lateinit var binding: PictureFragmentBinding
 
@@ -61,38 +56,27 @@ class Picture : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireArguments().takeIf { it.containsKey(ARG_OBJECT) }?.apply {
             val imageUrl = getString(ARG_OBJECT).toString()
-            picasso
-                .load(imageUrl)
-                .placeholder(R.drawable.rotating_sync)
-                .into(requireView().findViewById(R.id.image), object : Callback {
-                    override fun onSuccess() = setShareIntent()
 
-                    override fun onError(e: Exception?) = showAlert(e)
-                })
-            binding.imageUrl = imageUrl
-            binding.listener = ClickListener { viewModel.toggleLikeFor(imageUrl) }
+            binding.composeView.setContent {
+                LaunchedEffect(key1 = imageUrl) {
+                    viewModel.touchLikeFor(imageUrl)
+                }
 
-            viewModel.touchLikeFor(imageUrl)
-            viewModel.getLikeFor(imageUrl)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                    onNext = {
-                        when (it.liked) {
-                            false -> requireView().findViewById<FloatingActionButton>(R.id.fab)
-                                .setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                val likedState by viewModel.getLikeFor(imageUrl)
+                    .collectAsState(false)
 
-                            true -> requireView().findViewById<FloatingActionButton>(R.id.fab)
-                                .setImageResource(R.drawable.ic_baseline_favorite_24)
-                        }
-                    },
-                    onError = { Log.e(TAG, it.toString()) },
-                    onComplete = { Log.e(TAG, "Complete") }
+                Picture(
+                    imageUrl = imageUrl,
+                    clickListener = ClickListener { viewModel.toggleLikeFor(imageUrl) },
+                    likedState = likedState,
+                    onLoadingError = { showAlert(it) },
+                    onLoadingSuccess = { setShareIntent(it) }
                 )
+            }
         }
     }
 
-    private fun showAlert(e: Exception?) {
+    private fun showAlert(e: Throwable?) {
         AlertDialog.Builder(requireContext()).apply {
             setPositiveButton("Ok") { dialogInterface, i ->
                 dialogInterface.dismiss()
@@ -109,12 +93,10 @@ class Picture : Fragment() {
     }
 
     override fun onResume() {
-        setShareIntent()
         super.onResume()
     }
 
-    private fun setShareIntent() {
-        val bmp = requireView().findViewById<ImageView>(R.id.image).drawable.toBitmap()
+    private fun setShareIntent(bmp: Bitmap) {
         val imgFile = File.createTempFile("prefix", ".png", requireContext().cacheDir)
         val imgUri =
             FileProvider.getUriForFile(requireContext(), "com.pratclot.dogs.provider", imgFile)
@@ -138,11 +120,6 @@ class Picture : Fragment() {
                 },
                 onError = { Log.e(TAG, it.toString()) }
             )
-    }
-
-    override fun onDestroyView() {
-        intentUpdater.dispose()
-        super.onDestroyView()
     }
 
     class ClickListener(val listener: (imageUrl: String) -> Unit) {

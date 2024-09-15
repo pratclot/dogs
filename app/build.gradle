@@ -81,6 +81,7 @@ dependencies {
     implementation libs.viewpager2
     implementation libs.room.common
     implementation libs.room.rxjava3
+    implementation libs.room.ktx
     debugImplementation libs.stetho
     kapt libs.room.compiler
     implementation libs.room.runtime
@@ -100,6 +101,15 @@ dependencies {
     // Choose one of the following:
     // Material Design 3
     implementation libs.material3
+
+    implementation(libs.coil.compose)
+
+
+    // Android Studio Preview support
+    implementation libs.ui.tooling.preview
+    debugImplementation libs.ui.tooling
+
+    implementation libs.constraintlayout.compose
 
 
 }

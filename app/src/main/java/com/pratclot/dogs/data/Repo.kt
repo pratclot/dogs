@@ -8,6 +8,8 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class Repo @Inject constructor(
@@ -17,7 +19,7 @@ class Repo @Inject constructor(
         it.map { it.asLikedBreed() }
     }
 
-    fun getLikeFor(imageUrl: String): Flowable<Like> {
+    fun getLikeFor(imageUrl: String): Flow<Like> {
         return likeDbDao.getLikeFor(imageUrl).map { it.asLike() }
     }
 

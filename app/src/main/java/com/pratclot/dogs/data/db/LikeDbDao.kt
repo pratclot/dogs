@@ -1,10 +1,13 @@
 package com.pratclot.dogs.data.db
 
-import androidx.room.*
-import com.pratclot.dogs.domain.BreedImages
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LikeDbDao {
@@ -21,7 +24,7 @@ interface LikeDbDao {
     fun getLiked(): Flowable<List<LikedEntity>>
 
     @Query("SELECT * FROM likes WHERE imageUrl = :imageUrl")
-    fun getLikeFor(imageUrl: String): Flowable<LikeEntity>
+    fun getLikeFor(imageUrl: String): Flow<LikeEntity>
 
     @Query("UPDATE likes SET liked = ((liked | 1) - (liked & 1)) WHERE imageUrl = :imageUrl")
     fun toggleLikeFor(imageUrl: String)
